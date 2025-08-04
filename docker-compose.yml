@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  mikrotik-chr:
+    image: mikrotik/chr
+    container_name: chr-router
+    privileged: true
+    restart: unless-stopped
+    ports:
+      - "8291:8291" # WinBox
+      - "51820:51820/udp" # WireGuard
+      - "1701:1701/udp" # L2TP VPN
+    networks:
+      mikrotik_net_a:
+        ipv4_address: 172.21.0.2
+      mikrotik_net_b:
+        ipv4_address: 192.168.1.2
+      mikrotik_net_c:
+        ipv4_address: 192.168.2.2
+      mikrotik_net_d:
+        ipv4_address: 192.168.3.2
+      mikrotik_net_e:
+        ipv4_address: 192.168.4.2
+
+networks:
+  mikrotik_net_a:
+    name: mikrotik_net_a
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+          gateway: 172.21.0.1
+  mikrotik_net_b:
+    name: mikrotik_net_b
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1
+  mikrotik_net_c:
+    name: mikrotik_net_c
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.2.0/24
+          gateway: 192.168.2.1
+  mikrotik_net_d:
+    name: mikrotik_net_d
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.3.0/24
+          gateway: 192.168.3.1
+  mikrotik_net_e:
+    name: mikrotik_net_e
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.4.0/24
+          gateway: 192.168.4.1
