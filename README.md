@@ -6,7 +6,7 @@
 
 Для початку потрібно запустити контейнер `mikrotik-chr` з кількома мережевими інтерфейсами. У моєму випадку реалізовано 5 інтерфейсів — від `mikrotik_net_a` до `mikrotik_net_e`, де `mikrotik_net_a` виконує роль вхідного інтерфейсу для WAN.
 
-``
+---
 [HOST] (фізично в мережі 192.168.88.0/24)
     ↕
 [Docker Bridge mikrotik_net_a] → 172.21.0.1 (default gateway у bridge)
@@ -19,7 +19,7 @@
     ↕
 [Інші Docker-контейнери в мережах mikrotik_net_b → mikrotik_net_e]
 
-``
+---
 
 ---
 
