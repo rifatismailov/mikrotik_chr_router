@@ -6,20 +6,43 @@
 
 Для початку потрібно запустити контейнер `mikrotik-chr` з кількома мережевими інтерфейсами. У моєму випадку реалізовано 5 інтерфейсів — від `mikrotik_net_a` до `mikrotik_net_e`, де `mikrotik_net_a` виконує роль вхідного інтерфейсу для WAN.
 
----
-[HOST] (фізично в мережі 192.168.88.0/24)
-    ↕
-[Docker Bridge mikrotik_net_a] → 172.21.0.1 (default gateway у bridge)
-    ↕
-[MikroTik CHR container]  → ether1 = 172.21.0.2
-                          → ether2 = 192.168.1.1
-                          → ether3 = 192.168.2.1
-                          → ether4 = 192.168.3.1
-                          → ether5 = 192.168.4.1
-    ↕
-[Інші Docker-контейнери в мережах mikrotik_net_b → mikrotik_net_e]
+flowchart TB
+  host([HOST<br/>192.168.88.0/24])
+  brA[[Docker Bridge<br/>mikrotik_net_a<br/>GW: 172.21.0.1]]
+  chr[(MikroTik CHR<br/>container)]
+  b([mikrotik_net_b<br/>192.168.1.0/24])
+  c([mikrotik_net_c<br/>192.168.2.0/24])
+  d([mikrotik_net_d<br/>192.168.3.0/24])
+  e([mikrotik_net_e<br/>192.168.4.0/24])
 
----
+  host --- brA
+  brA --- chr
+
+  %% IP підписи інтерфейсів CHR
+  subgraph CHR_Ifaces[ ]
+    direction TB
+    e1[[ether1 = 172.21.0.2/16]]
+    e2[[ether2 = 192.168.1.1/24]]
+    e3[[ether3 = 192.168.2.1/24]]
+    e4[[ether4 = 192.168.3.1/24]]
+    e5[[ether5 = 192.168.4.1/24]]
+  end
+
+  chr --- e1
+  chr --- e2
+  chr --- e3
+  chr --- e4
+  chr --- e5
+
+  e2 --- b
+  e3 --- c
+  e4 --- d
+  e5 --- e
+
+  %% Пояснення NAT/DNAT на хості
+  noteNAT{{"Host iptables:<br/>DNAT 192.168.88.200:8291 → 172.21.0.2:8291<br/>MASQUERADE для зворотнього трафіку<br/>IP Forwarding: ON"}}
+  host -. manages .- noteNAT
+
 
 ---
 
