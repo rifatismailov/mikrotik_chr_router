@@ -46,7 +46,10 @@ flowchart TB
 
 ```
 
-![Схема мережі](Діаграма.png)
+<p align="center">
+  <img src="assets/diagram.png" alt="Схема мережі" width="700">
+</p>
+
 
 ---
 
