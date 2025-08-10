@@ -45,6 +45,9 @@ flowchart TB
   host -. manages .- noteNAT
 
 ```
+
+![Схема мережі](Діаграма.png)
+
 ---
 
 ## 🔧 Docker Compose (`docker-compose.yml`)
