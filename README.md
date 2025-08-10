@@ -6,6 +6,7 @@
 
 Для початку потрібно запустити контейнер `mikrotik-chr` з кількома мережевими інтерфейсами. У моєму випадку реалізовано 5 інтерфейсів — від `mikrotik_net_a` до `mikrotik_net_e`, де `mikrotik_net_a` виконує роль вхідного інтерфейсу для WAN.
 
+---
 flowchart TB
   host([HOST<br/>192.168.88.0/24])
   brA[[Docker Bridge<br/>mikrotik_net_a<br/>GW: 172.21.0.1]]
@@ -43,7 +44,7 @@ flowchart TB
   noteNAT{{"Host iptables:<br/>DNAT 192.168.88.200:8291 → 172.21.0.2:8291<br/>MASQUERADE для зворотнього трафіку<br/>IP Forwarding: ON"}}
   host -. manages .- noteNAT
 
-
+---
 ---
 
 ## 🔧 Docker Compose (`docker-compose.yml`)
